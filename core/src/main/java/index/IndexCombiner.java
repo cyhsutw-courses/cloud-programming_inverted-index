@@ -2,28 +2,38 @@ package index;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import org.apache.hadoop.io.ArrayWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class IndexCombiner extends
-		Reducer<IndexKey, IntWritable, IndexKey, ArrayWritable> {
+		Reducer<IndexKey, ArrayWritable, IndexKey, ArrayWritable> {
 
 	@Override
-	public void reduce(IndexKey key, Iterable<IntWritable> values,
+	public void reduce(IndexKey key, Iterable<ArrayWritable> values,
 			Context context) throws IOException, InterruptedException {
-		List<IntWritable> offsets = new ArrayList<IntWritable>();
 
-		for (IntWritable offset : values) {
-			offsets.add(offset);
+		System.out.println(key.getTerm() + ":" + key.getDocName());
+
+		ArrayList<TermFrequencyWritable> offsets = new ArrayList<>();
+
+		for (ArrayWritable freqs : values) {
+			TermFrequencyWritable[] freqArr = (TermFrequencyWritable[]) freqs
+					.toArray();
+			ArrayList<Integer> allOffsets = new ArrayList<>();
+			for (TermFrequencyWritable freq : freqArr) {
+				System.out.println("\t" + freq.getDocName());
+				Integer[] someOffsets = freq.getOffsets();
+				allOffsets.addAll(Arrays.asList(someOffsets));
+			}
+			allOffsets.sort(null);
+			offsets.add(new TermFrequencyWritable(freqArr[0].getDocName(),
+					allOffsets));
 		}
 
-		IntWritable[] resultArray = new IntWritable[offsets.size()];
-		context.write(
-				key,
-				new ArrayWritable(IntWritable.class, offsets
-						.toArray(resultArray)));
+		TermFrequencyWritable[] arr = new TermFrequencyWritable[offsets.size()];
+		context.write(key, new ArrayWritable(TermFrequencyWritable.class,
+				offsets.toArray(arr)));
 	}
 }

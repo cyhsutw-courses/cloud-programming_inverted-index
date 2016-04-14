@@ -2,8 +2,9 @@ package index;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -14,7 +15,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 
 public class IndexMapper extends
-		Mapper<LongWritable, Text, IndexKey, IntWritable> {
+		Mapper<LongWritable, Text, IndexKey, ArrayWritable> {
 
 	public void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
@@ -36,8 +37,14 @@ public class IndexMapper extends
 			String toProcess = termAttribute.toString();
 			toProcess = toProcess.replaceAll("[^a-zA-Z0-9]", "");
 
-			context.write(new IndexKey(toProcess, fileName), new IntWritable(
-					offsetAttribute.startOffset()));
+			ArrayList<Integer> offsets = new ArrayList<>();
+			offsets.add(new Integer(offsetAttribute.startOffset()));
+
+			TermFrequencyWritable[] vals = { new TermFrequencyWritable(
+					fileName, offsets) };
+
+			context.write(new IndexKey(toProcess, fileName), new ArrayWritable(
+					TermFrequencyWritable.class, vals));
 		}
 
 		stream.close();
