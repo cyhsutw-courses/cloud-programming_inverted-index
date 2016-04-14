@@ -20,7 +20,7 @@ public class IndexReducer extends
 
 		ArrayWritable[] resultArray = new ArrayWritable[freqs.size()];
 		context.write(
-				new OutputIndexKey(key.term(), freqs.size()),
+				new OutputIndexKey(key.getTerm(), freqs.size()),
 				new ArrayWritable(ArrayWritable.class, freqs
 						.toArray(resultArray)));
 	}

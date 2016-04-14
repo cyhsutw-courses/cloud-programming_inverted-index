@@ -19,8 +19,12 @@ public class IndexKey implements WritableComparable<IndexKey> {
 		this.docName = new Text(docName);
 	}
 
-	public String term() {
+	public String getTerm() {
 		return term.toString();
+	}
+
+	public String getDocName() {
+		return docName.toString();
 	}
 
 	@Override

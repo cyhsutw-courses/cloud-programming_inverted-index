@@ -13,6 +13,6 @@ public class IndexKeyGroupComparator extends WritableComparator {
 		IndexKey left = (IndexKey) lhs;
 		IndexKey right = (IndexKey) rhs;
 
-		return left.term().compareTo(right.term());
+		return left.getTerm().compareTo(right.getTerm());
 	}
 }
