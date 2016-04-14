@@ -1,9 +1,18 @@
 #!/bin/bash
 
-BASEDIR=$(dirname "$0")
+# WARNING: this script only works with maven, please install it in your env
 
-mkdir -p $BASEDIR/../target/class
-rm -rf $BASEDIR/../target/class/*
+command_exists () {
+    type "$1" &> /dev/null ;
+}
 
-javac -cp "$BASEDIR/../vendor/*" -d "$BASEDIR/../target/class/" $BASEDIR/../core/src/main/java/index/*
-(cd $BASEDIR/../target; jar -cvf Indexer.jar -C ./class .)
+if command_exists mvn ; then
+  BASEDIR=$(dirname "$0")
+
+  (
+    cd $BASEDIR/../core/; mvn assembly:assembly
+    cp target/searcher-0.0.1-jar-with-dependencies.jar ../prebuild/searcher.jar
+  )
+else
+  echo 'Please install Maven to build this app.'
+fi
