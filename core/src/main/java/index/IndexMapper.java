@@ -8,7 +8,6 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
-import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -22,7 +21,7 @@ public class IndexMapper extends
 		String fileName = ((FileSplit) context.getInputSplit()).getPath()
 				.getName();
 
-		Analyzer analyzer = new StandardAnalyzer();
+		StandardAnalyzer analyzer = new StandardAnalyzer();
 
 		TokenStream stream = analyzer.tokenStream(null,
 				new StringReader(value.toString()));
