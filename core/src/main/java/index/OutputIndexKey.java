@@ -13,6 +13,10 @@ public class OutputIndexKey implements WritableComparable<OutputIndexKey> {
 	private Text term;
 	private IntWritable docFreq;
 
+	public OutputIndexKey() {
+
+	}
+
 	public OutputIndexKey(String term, int docFreq) {
 		this.term = new Text(term);
 		this.docFreq = new IntWritable(docFreq);
