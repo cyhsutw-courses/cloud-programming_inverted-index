@@ -14,7 +14,8 @@ public class OutputIndexKey implements WritableComparable<OutputIndexKey> {
 	private IntWritable docFreq;
 
 	public OutputIndexKey() {
-
+		term = new Text();
+		docFreq = new IntWritable();
 	}
 
 	public OutputIndexKey(String term, int docFreq) {

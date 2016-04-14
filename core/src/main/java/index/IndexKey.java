@@ -15,7 +15,8 @@ public class IndexKey implements WritableComparable<IndexKey> {
 	private Text docName;
 
 	public IndexKey() {
-
+		term = new Text();
+		docName = new Text();
 	}
 
 	public IndexKey(String term, String docName) {
