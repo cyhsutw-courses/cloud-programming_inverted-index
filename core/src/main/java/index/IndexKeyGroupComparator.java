@@ -1,17 +1,17 @@
-package tf_idf;
+package index;
 
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
-public class TfIdfKeyGroupComparator extends WritableComparator {
-	public TfIdfKeyGroupComparator() {
-		super(TfIdfKey.class, true);
+public class IndexKeyGroupComparator extends WritableComparator {
+	public IndexKeyGroupComparator() {
+		super(IndexKey.class, true);
 	}
 
 	@Override
 	public int compare(WritableComparable lhs, WritableComparable rhs) {
-		TfIdfKey left = (TfIdfKey) lhs;
-		TfIdfKey right = (TfIdfKey) rhs;
+		IndexKey left = (IndexKey) lhs;
+		IndexKey right = (IndexKey) rhs;
 
 		return left.term().compareTo(right.term());
 	}

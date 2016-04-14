@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$0")
+
+hdfs dfs -rm -r hw1/index/
+hdfs dfs -mkdir -p hw1/index/
+
+hadoop jar $BASEDIR/../target/Indexer.jar index.Indexer /home/cp2016/shared/hw1/input hw1/index/
+hdfs dfs -cat hw1/index/part-*

@@ -1,4 +1,4 @@
-package tf_idf;
+package index;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -9,12 +9,12 @@ import org.apache.hadoop.io.WritableComparable;
 
 import com.google.common.base.Objects;
 
-public class TfIdfKey implements WritableComparable<TfIdfKey> {
+public class IndexKey implements WritableComparable<IndexKey> {
 
 	private Text term;
 	private Text docName;
 
-	public TfIdfKey(String term, String docName) {
+	public IndexKey(String term, String docName) {
 		this.term = new Text(term);
 		this.docName = new Text(docName);
 	}
@@ -42,15 +42,15 @@ public class TfIdfKey implements WritableComparable<TfIdfKey> {
 
 	@Override
 	public boolean equals(Object k) {
-		if (k instanceof TfIdfKey) {
-			TfIdfKey key = (TfIdfKey) k;
+		if (k instanceof IndexKey) {
+			IndexKey key = (IndexKey) k;
 			return term.equals(key.term) && docName.equals(key.docName);
 		}
 		return false;
 	}
 
 	@Override
-	public int compareTo(TfIdfKey key) {
+	public int compareTo(IndexKey key) {
 		int result = term.compareTo(key.term);
 		if (result != 0) {
 			return result;

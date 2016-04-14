@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$0")
+
+mkdir -p $BASEDIR/../target/class
+rm -rf $BASEDIR/../target/class/*
+
+javac -cp "$BASEDIR/../vendor/*" -d "$BASEDIR/../target/class/" $BASEDIR/../core/src/main/java/index/*
+(cd $BASEDIR/../target; jar -cvf Indexer.jar -C ./class .)
