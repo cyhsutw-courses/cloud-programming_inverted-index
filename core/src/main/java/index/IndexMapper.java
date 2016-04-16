@@ -36,9 +36,9 @@ public class IndexMapper extends
 		while (stream.incrementToken()) {
 			String toProcess = termAttribute.toString();
 			toProcess = toProcess.replaceAll("[^a-zA-Z0-9]", "");
-
-			ArrayList<Integer> offsets = new ArrayList<>();
+			System.out.println(toProcess);
 			System.out.println(offsetAttribute.startOffset());
+			ArrayList<Integer> offsets = new ArrayList<>();
 			offsets.add(new Integer(offsetAttribute.startOffset()));
 
 			TermFrequencyWritable[] vals = { new TermFrequencyWritable(
