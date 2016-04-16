@@ -39,10 +39,10 @@ public class TermFrequencyWritable implements Writable {
 	}
 
 	public Integer[] getOffsets() {
-		List<IntWritable> tmpOffsets = Arrays
-				.asList((IntWritable[]) this.offsets.get());
-		return (Integer[]) tmpOffsets.stream().map(o -> new Integer(o.get()))
-				.toArray();
+		List<Writable> tmpOffsets = Arrays.asList((Writable[]) this.offsets
+				.get());
+		return (Integer[]) tmpOffsets.stream()
+				.map(o -> Integer.parseInt(o.toString())).toArray();
 	}
 
 	@Override
