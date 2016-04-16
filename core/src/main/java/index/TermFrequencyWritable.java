@@ -4,7 +4,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.hadoop.io.IntWritable;
@@ -39,10 +38,12 @@ public class TermFrequencyWritable implements Writable {
 	}
 
 	public Integer[] getOffsets() {
-		List<Writable> tmpOffsets = Arrays.asList((Writable[]) this.offsets
-				.get());
-		return (Integer[]) tmpOffsets.stream()
-				.map(o -> Integer.parseInt(o.toString())).toArray();
+		Writable[] tmpOffsets = this.offsets.get();
+		Integer[] returnValue = new Integer[tmpOffsets.length];
+		for (int i = 0; i < tmpOffsets.length; i += 1) {
+			returnValue[i] = new Integer(tmpOffsets[i].toString());
+		}
+		return returnValue;
 	}
 
 	@Override
