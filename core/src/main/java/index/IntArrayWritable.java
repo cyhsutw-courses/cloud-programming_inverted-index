@@ -9,4 +9,12 @@ public class IntArrayWritable extends ArrayWritable {
 		super(IntWritable.class);
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (String string : super.toStrings()) {
+			builder.append(string).append(" ");
+		}
+		return builder.toString();
+	}
 }
