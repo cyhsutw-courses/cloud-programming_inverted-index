@@ -9,11 +9,14 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class IndexProcessor {
+
+	private IndexProcessor() {
+	}
+
 	public static void main(String[] args) throws IOException,
 			ClassNotFoundException, InterruptedException {
 		Configuration config = new Configuration();
 		config.set("mapreduce.output.textoutputformat.separator", ";");
-		config.set("numnum", "44");
 
 		Job job = Job.getInstance(config, "IndexProcessor");
 		job.setJarByClass(IndexProcessor.class);

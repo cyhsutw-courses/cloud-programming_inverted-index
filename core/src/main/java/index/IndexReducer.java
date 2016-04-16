@@ -13,7 +13,6 @@ public class IndexReducer
 	@Override
 	public void reduce(IndexKey key, Iterable<TermFrequencyWritable> values,
 			Context context) throws IOException, InterruptedException {
-		System.out.println(context.getConfiguration().get("numnum"));
 		List<TermFrequencyWritable> freqs = new ArrayList<>();
 
 		for (TermFrequencyWritable freq : values) {
