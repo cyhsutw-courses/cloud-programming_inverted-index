@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
@@ -16,12 +15,12 @@ public class TermFrequencyWritable implements Writable {
 
 	private Text docName;
 	private IntWritable frequency;
-	private ArrayWritable offsets;
+	private IntArrayWritable offsets;
 
 	public TermFrequencyWritable() {
 		docName = new Text();
 		frequency = new IntWritable();
-		offsets = new ArrayWritable(IntWritable.class);
+		offsets = new IntArrayWritable();
 	}
 
 	public TermFrequencyWritable(String docName, List<Integer> offsets) {
@@ -32,8 +31,8 @@ public class TermFrequencyWritable implements Writable {
 		}
 		this.frequency = new IntWritable(offsets.size());
 		IntWritable[] arr = new IntWritable[offsets.size()];
-		this.offsets = new ArrayWritable(IntWritable.class,
-				objects.toArray(arr));
+		this.offsets = new IntArrayWritable();
+		this.offsets.set(arr);
 	}
 
 	public String getDocName() {
@@ -41,9 +40,9 @@ public class TermFrequencyWritable implements Writable {
 	}
 
 	public Integer[] getOffsets() {
-		List<IntWritable> offsets = Arrays.asList(((IntWritable[]) this.offsets
-				.toArray()));
-		return (Integer[]) offsets.stream().map(o -> new Integer(o.get()))
+		List<IntWritable> tmpOffsets = Arrays
+				.asList((IntWritable[]) this.offsets.get());
+		return (Integer[]) tmpOffsets.stream().map(o -> new Integer(o.get()))
 				.toArray();
 	}
 

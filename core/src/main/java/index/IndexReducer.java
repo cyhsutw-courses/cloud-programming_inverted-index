@@ -12,7 +12,7 @@ public class IndexReducer extends
 	@Override
 	public void reduce(IndexKey key, Iterable<ArrayWritable> values,
 			Context context) throws IOException, InterruptedException {
-		List<ArrayWritable> freqs = new ArrayList<ArrayWritable>();
+		List<ArrayWritable> freqs = new ArrayList<>();
 
 		for (ArrayWritable occurrences : values) {
 			freqs.add(occurrences);
