@@ -7,12 +7,14 @@ import java.util.Arrays;
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class IndexCombiner extends
-		Reducer<IndexKey, ArrayWritable, IndexKey, ArrayWritable> {
+public class IndexCombiner
+		extends
+		Reducer<IndexKey, TermFrequencyArrayWritable, IndexKey, TermFrequencyArrayWritable> {
 
 	@Override
-	public void reduce(IndexKey key, Iterable<ArrayWritable> values,
-			Context context) throws IOException, InterruptedException {
+	public void reduce(IndexKey key,
+			Iterable<TermFrequencyArrayWritable> values, Context context)
+			throws IOException, InterruptedException {
 
 		System.out.println(key.getTerm() + ":" + key.getDocName());
 
@@ -33,7 +35,6 @@ public class IndexCombiner extends
 		}
 
 		TermFrequencyWritable[] arr = new TermFrequencyWritable[offsets.size()];
-		context.write(key, new ArrayWritable(TermFrequencyWritable.class,
-				offsets.toArray(arr)));
+		context.write(key, new TermFrequencyArrayWritable(offsets.toArray(arr)));
 	}
 }

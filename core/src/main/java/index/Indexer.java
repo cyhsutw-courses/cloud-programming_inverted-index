@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.ArrayWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -27,7 +28,7 @@ public class Indexer {
 		job.setMapOutputKeyClass(IndexKey.class);
 		job.setMapOutputValueClass(ArrayWritable.class);
 		job.setOutputKeyClass(OutputIndexKey.class);
-		job.setOutputValueClass(ArrayWritable.class);
+		job.setOutputValueClass(Text.class);
 
 		job.setNumReduceTasks(1);
 
