@@ -38,6 +38,7 @@ public class IndexMapper extends
 			toProcess = toProcess.replaceAll("[^a-zA-Z0-9]", "");
 
 			ArrayList<Integer> offsets = new ArrayList<>();
+			System.out.println(offsetAttribute.startOffset());
 			offsets.add(new Integer(offsetAttribute.startOffset()));
 
 			TermFrequencyWritable[] vals = { new TermFrequencyWritable(

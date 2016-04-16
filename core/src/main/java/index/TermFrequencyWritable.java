@@ -24,9 +24,6 @@ public class TermFrequencyWritable implements Writable {
 	}
 
 	public TermFrequencyWritable(String docName, List<Integer> offsets) {
-		if (offsets.isEmpty()) {
-			throw new IllegalArgumentException();
-		}
 		this.docName = new Text(docName);
 		ArrayList<IntWritable> objects = new ArrayList<>();
 		for (Integer offset : offsets) {
