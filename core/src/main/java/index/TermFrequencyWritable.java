@@ -56,7 +56,9 @@ public class TermFrequencyWritable implements Writable {
 	public void write(DataOutput output) throws IOException {
 		docName.write(output);
 		frequency.write(output);
-		offsets.write(output);
+		if (offsets != null) {
+			offsets.write(output);
+		}
 	}
 
 }
