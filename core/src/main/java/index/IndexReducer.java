@@ -13,8 +13,9 @@ public class IndexReducer
 	public void reduce(IndexKey key, Iterable<TermFrequencyWritable> values,
 			Context context) throws IOException, InterruptedException {
 		List<TermFrequencyWritable> freqs = new ArrayList<>();
-
+		System.out.println(key.getTerm());
 		for (TermFrequencyWritable freq : values) {
+			System.out.println("\t" + freq.getDocName());
 			freqs.add(freq);
 		}
 
