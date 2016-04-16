@@ -2,7 +2,6 @@ package index;
 
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Writable;
 
 public class IntArrayWritable extends ArrayWritable {
 
@@ -10,13 +9,16 @@ public class IntArrayWritable extends ArrayWritable {
 		super(IntWritable.class);
 	}
 
+	public IntArrayWritable(IntWritable[] values) {
+		super(IntWritable.class, values);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 
-		for (Writable wt : this.get()) {
-			System.out.println(wt);
-			builder.append(wt.toString()).append(" ");
+		for (String str : super.toStrings()) {
+			builder.append(str).append(" ");
 		}
 		return builder.toString();
 	}
