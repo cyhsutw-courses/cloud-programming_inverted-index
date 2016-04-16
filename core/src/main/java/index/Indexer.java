@@ -24,9 +24,9 @@ public class Indexer {
 		job.setReducerClass(IndexReducer.class);
 
 		job.setMapOutputKeyClass(IndexKey.class);
-		job.setMapOutputValueClass(TermFrequencyArrayWritable.class);
+		job.setMapOutputValueClass(TermFrequencyWritable.class);
 		job.setOutputKeyClass(OutputIndexKey.class);
-		job.setOutputValueClass(TermFrequencyArrayCollectionWritable.class);
+		job.setOutputValueClass(TermFrequencyArrayWritable.class);
 
 		job.setNumReduceTasks(1);
 

@@ -14,7 +14,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 
 public class IndexMapper extends
-		Mapper<LongWritable, Text, IndexKey, TermFrequencyArrayWritable> {
+		Mapper<LongWritable, Text, IndexKey, TermFrequencyWritable> {
 
 	public void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
@@ -35,16 +35,11 @@ public class IndexMapper extends
 		while (stream.incrementToken()) {
 			String toProcess = termAttribute.toString();
 			toProcess = toProcess.replaceAll("[^a-zA-Z0-9]", "");
-			System.out.println(toProcess);
-			System.out.println(offsetAttribute.startOffset());
 			ArrayList<Integer> offsets = new ArrayList<>();
 			offsets.add(new Integer(offsetAttribute.startOffset()));
 
-			TermFrequencyWritable[] vals = { new TermFrequencyWritable(
-					fileName, offsets) };
-
 			context.write(new IndexKey(toProcess, fileName),
-					new TermFrequencyArrayWritable(vals));
+					new TermFrequencyWritable(fileName, offsets));
 		}
 
 		stream.close();

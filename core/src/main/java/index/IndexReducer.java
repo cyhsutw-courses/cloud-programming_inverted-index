@@ -8,22 +8,19 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 public class IndexReducer
 		extends
-		Reducer<IndexKey, TermFrequencyArrayWritable, OutputIndexKey, TermFrequencyArrayCollectionWritable> {
+		Reducer<IndexKey, TermFrequencyWritable, OutputIndexKey, TermFrequencyArrayWritable> {
 	@Override
-	public void reduce(IndexKey key,
-			Iterable<TermFrequencyArrayWritable> values, Context context)
-			throws IOException, InterruptedException {
-		List<TermFrequencyArrayWritable> freqs = new ArrayList<>();
+	public void reduce(IndexKey key, Iterable<TermFrequencyWritable> values,
+			Context context) throws IOException, InterruptedException {
+		List<TermFrequencyWritable> freqs = new ArrayList<>();
 
-		for (TermFrequencyArrayWritable occurrences : values) {
-			freqs.add(occurrences);
+		for (TermFrequencyWritable freq : values) {
+			freqs.add(freq);
 		}
 
-		TermFrequencyArrayWritable[] resultArray = new TermFrequencyArrayWritable[freqs
+		TermFrequencyWritable[] resultArray = new TermFrequencyWritable[freqs
 				.size()];
-		context.write(
-				new OutputIndexKey(key.getTerm(), freqs.size()),
-				new TermFrequencyArrayCollectionWritable(freqs
-						.toArray(resultArray)));
+		context.write(new OutputIndexKey(key.getTerm(), freqs.size()),
+				new TermFrequencyArrayWritable(freqs.toArray(resultArray)));
 	}
 }
