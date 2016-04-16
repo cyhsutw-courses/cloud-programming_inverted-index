@@ -1,10 +1,11 @@
 package index;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.mapreduce.Reducer;
+
+import com.google.common.collect.Lists;
 
 public class IndexReducer
 		extends
@@ -12,12 +13,7 @@ public class IndexReducer
 	@Override
 	public void reduce(IndexKey key, Iterable<TermFrequencyWritable> values,
 			Context context) throws IOException, InterruptedException {
-		List<TermFrequencyWritable> freqs = new ArrayList<>();
-		System.out.println(key.getTerm());
-		for (TermFrequencyWritable freq : values) {
-			System.out.println("\t" + freq.getDocName());
-			freqs.add(freq);
-		}
+		List<TermFrequencyWritable> freqs = Lists.newArrayList(values);
 
 		TermFrequencyWritable[] resultArray = new TermFrequencyWritable[freqs
 				.size()];
