@@ -31,7 +31,7 @@ public class TermFrequencyWritable implements Writable {
 		}
 		this.frequency = new IntWritable(offsets.size());
 		IntWritable[] arr = new IntWritable[offsets.size()];
-		this.offsets = new IntArrayWritable(offsets.toArray(arr));
+		this.offsets = new IntArrayWritable(objects.toArray(arr));
 	}
 
 	public String getDocName() {
