@@ -14,8 +14,9 @@ public class IndexCombiner
 			Context context) throws IOException, InterruptedException {
 
 		ArrayList<Integer> offsets = new ArrayList<>();
-
+		System.out.println(key.getTerm() + " : " + key.getDocName());
 		for (TermFrequencyWritable freq : values) {
+			System.out.println("\t" + freq.getDocName());
 			for (Integer i : freq.getOffsets()) {
 				offsets.add(i);
 			}
@@ -23,5 +24,6 @@ public class IndexCombiner
 		offsets.sort(null);
 
 		context.write(key, new TermFrequencyWritable(key.getDocName(), offsets));
+		System.out.println("===============================");
 	}
 }
