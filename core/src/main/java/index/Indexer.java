@@ -12,25 +12,30 @@ public class Indexer {
 	public static void main(String[] args) throws IOException,
 			ClassNotFoundException, InterruptedException {
 		Configuration config = new Configuration();
+		config.set("mapreduce.output.textoutputformat.separator", ";");
 
 		Job job = Job.getInstance(config, "Indexer");
 		job.setJarByClass(Indexer.class);
 
 		job.setMapperClass(IndexMapper.class);
+
 		job.setSortComparatorClass(IndexKeyComparator.class);
+
 		job.setCombinerClass(IndexCombiner.class);
 		job.setCombinerKeyGroupingComparatorClass(IndexKeyComparator.class);
+
 		job.setGroupingComparatorClass(IndexKeyGroupComparator.class);
 
-		job.setReducerClass(IndexReducer.class);
 		job.setPartitionerClass(IndexKeyPartitioner.class);
+		job.setReducerClass(IndexReducer.class);
+
+		job.setNumReduceTasks(4);
 
 		job.setMapOutputKeyClass(IndexKey.class);
 		job.setMapOutputValueClass(TermFrequencyWritable.class);
+
 		job.setOutputKeyClass(OutputIndexKey.class);
 		job.setOutputValueClass(TermFrequencyArrayWritable.class);
-
-		job.setNumReduceTasks(4);
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
