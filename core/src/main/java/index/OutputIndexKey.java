@@ -37,7 +37,7 @@ public class OutputIndexKey implements WritableComparable<OutputIndexKey> {
 
 	@Override
 	public String toString() {
-		return term.toString() + " " + docFreq.toString();
+		return term.toString() + " " + docFreq.toString() + ";";
 	}
 
 	@Override

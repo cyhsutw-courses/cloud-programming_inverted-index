@@ -23,13 +23,14 @@ public class Indexer {
 		job.setGroupingComparatorClass(IndexKeyGroupComparator.class);
 
 		job.setReducerClass(IndexReducer.class);
+		job.setPartitionerClass(IndexKeyPartitioner.class);
 
 		job.setMapOutputKeyClass(IndexKey.class);
 		job.setMapOutputValueClass(TermFrequencyWritable.class);
 		job.setOutputKeyClass(OutputIndexKey.class);
 		job.setOutputValueClass(TermFrequencyArrayWritable.class);
 
-		job.setNumReduceTasks(1);
+		job.setNumReduceTasks(4);
 
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));

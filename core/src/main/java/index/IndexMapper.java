@@ -34,7 +34,9 @@ public class IndexMapper extends
 
 		while (stream.incrementToken()) {
 			String toProcess = termAttribute.toString();
-			toProcess = toProcess.replaceAll("[^a-zA-Z0-9]", "");
+			toProcess = toProcess.toLowerCase();
+			toProcess = toProcess.replaceAll("[^a-z0-9]", "");
+
 			ArrayList<Long> offsets = new ArrayList<>();
 			offsets.add(new Long(key.get() + offsetAttribute.startOffset()));
 
