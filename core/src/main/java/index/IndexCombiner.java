@@ -13,11 +13,11 @@ public class IndexCombiner
 	public void reduce(IndexKey key, Iterable<TermFrequencyWritable> values,
 			Context context) throws IOException, InterruptedException {
 
-		ArrayList<Integer> offsets = new ArrayList<>();
+		ArrayList<Long> offsets = new ArrayList<>();
 		System.out.println(key.getTerm() + " : " + key.getDocName());
 		for (TermFrequencyWritable freq : values) {
 			System.out.println("\t" + freq.getDocName());
-			for (Integer i : freq.getOffsets()) {
+			for (Long i : freq.getOffsets()) {
 				offsets.add(i);
 			}
 		}

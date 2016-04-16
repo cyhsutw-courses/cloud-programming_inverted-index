@@ -35,8 +35,8 @@ public class IndexMapper extends
 		while (stream.incrementToken()) {
 			String toProcess = termAttribute.toString();
 			toProcess = toProcess.replaceAll("[^a-zA-Z0-9]", "");
-			ArrayList<Integer> offsets = new ArrayList<>();
-			offsets.add(new Integer(offsetAttribute.startOffset()));
+			ArrayList<Long> offsets = new ArrayList<>();
+			offsets.add(new Long(key.get() + offsetAttribute.startOffset()));
 
 			context.write(new IndexKey(toProcess, fileName),
 					new TermFrequencyWritable(fileName, offsets));

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
@@ -14,34 +15,34 @@ public class TermFrequencyWritable implements Writable {
 
 	private Text docName;
 	private IntWritable frequency;
-	private IntArrayWritable offsets;
+	private LongArrayWritable offsets;
 
 	public TermFrequencyWritable() {
 		docName = new Text();
 		frequency = new IntWritable();
-		offsets = new IntArrayWritable();
+		offsets = new LongArrayWritable();
 	}
 
-	public TermFrequencyWritable(String docName, List<Integer> offsets) {
+	public TermFrequencyWritable(String docName, List<Long> offsets) {
 		this.docName = new Text(docName);
-		ArrayList<IntWritable> objects = new ArrayList<>();
-		for (Integer offset : offsets) {
-			objects.add(new IntWritable(offset.intValue()));
+		ArrayList<LongWritable> objects = new ArrayList<>();
+		for (Long offset : offsets) {
+			objects.add(new LongWritable(offset.intValue()));
 		}
 		this.frequency = new IntWritable(offsets.size());
-		IntWritable[] arr = new IntWritable[offsets.size()];
-		this.offsets = new IntArrayWritable(objects.toArray(arr));
+		LongWritable[] arr = new LongWritable[offsets.size()];
+		this.offsets = new LongArrayWritable(objects.toArray(arr));
 	}
 
 	public String getDocName() {
 		return docName.toString();
 	}
 
-	public Integer[] getOffsets() {
+	public Long[] getOffsets() {
 		Writable[] tmpOffsets = this.offsets.get();
-		Integer[] returnValue = new Integer[tmpOffsets.length];
+		Long[] returnValue = new Long[tmpOffsets.length];
 		for (int i = 0; i < tmpOffsets.length; i += 1) {
-			returnValue[i] = new Integer(tmpOffsets[i].toString());
+			returnValue[i] = new Long(tmpOffsets[i].toString());
 		}
 		return returnValue;
 	}
