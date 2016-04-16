@@ -15,6 +15,7 @@ public class IntArrayWritable extends ArrayWritable {
 		StringBuilder builder = new StringBuilder();
 
 		for (Writable wt : this.get()) {
+			System.out.println(wt);
 			builder.append(wt.toString()).append(" ");
 		}
 		return builder.toString();
