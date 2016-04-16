@@ -20,6 +20,7 @@ public class Indexer {
 		job.setSortComparatorClass(IndexKeyComparator.class);
 		job.setCombinerClass(IndexCombiner.class);
 		job.setCombinerKeyGroupingComparatorClass(IndexKeyComparator.class);
+		job.setGroupingComparatorClass(IndexKeyGroupComparator.class);
 
 		job.setReducerClass(IndexReducer.class);
 
