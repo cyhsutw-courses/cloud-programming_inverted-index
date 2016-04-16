@@ -24,6 +24,9 @@ public class TermFrequencyWritable implements Writable {
 	}
 
 	public TermFrequencyWritable(String docName, List<Integer> offsets) {
+		if (offsets.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		this.docName = new Text(docName);
 		ArrayList<IntWritable> objects = new ArrayList<>();
 		for (Integer offset : offsets) {
@@ -56,9 +59,7 @@ public class TermFrequencyWritable implements Writable {
 	public void write(DataOutput output) throws IOException {
 		docName.write(output);
 		frequency.write(output);
-		if (offsets != null) {
-			offsets.write(output);
-		}
+		offsets.write(output);
 	}
 
 }
