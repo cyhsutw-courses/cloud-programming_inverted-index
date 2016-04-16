@@ -60,4 +60,9 @@ public class TermFrequencyWritable implements Writable {
 		offsets.write(output);
 	}
 
+	@Override
+	public String toString() {
+		return String.join(" ", frequency.toString(), docName.toString(),
+				offsets.toString());
+	}
 }

@@ -1,5 +1,7 @@
 package index;
 
+import java.util.Arrays;
+
 import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.IntWritable;
 
@@ -15,11 +17,7 @@ public class IntArrayWritable extends ArrayWritable {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-
-		for (String str : super.toStrings()) {
-			builder.append(str).append(" ");
-		}
-		return builder.toString();
+		return String.join("", "[",
+				String.join(", ", Arrays.asList(this.toStrings())), "]");
 	}
 }

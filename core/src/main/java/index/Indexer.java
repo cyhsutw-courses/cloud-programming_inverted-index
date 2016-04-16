@@ -19,7 +19,7 @@ public class Indexer {
 		job.setMapperClass(IndexMapper.class);
 		job.setSortComparatorClass(IndexKeyComparator.class);
 		job.setCombinerClass(IndexCombiner.class);
-		// job.setCombinerKeyGroupingComparatorClass(IndexKeyGroupComparator.class);
+		job.setCombinerKeyGroupingComparatorClass(IndexKeyGroupComparator.class);
 
 		job.setReducerClass(IndexReducer.class);
 

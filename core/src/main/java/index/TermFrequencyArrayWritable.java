@@ -1,5 +1,7 @@
 package index;
 
+import java.util.Arrays;
+
 import org.apache.hadoop.io.ArrayWritable;
 
 public class TermFrequencyArrayWritable extends ArrayWritable {
@@ -12,4 +14,8 @@ public class TermFrequencyArrayWritable extends ArrayWritable {
 		super(TermFrequencyArrayWritable.class, values);
 	}
 
+	@Override
+	public String toString() {
+		return String.join("; ", Arrays.asList(this.toStrings()));
+	}
 }
