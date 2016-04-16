@@ -3,11 +3,11 @@ package index;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class IndexCombiner extends
-		Reducer<IndexKey, TermFrequencyWritable, Text, TermFrequencyWritable> {
+public class IndexCombiner
+		extends
+		Reducer<IndexKey, TermFrequencyWritable, IndexKey, TermFrequencyWritable> {
 
 	@Override
 	public void reduce(IndexKey key, Iterable<TermFrequencyWritable> values,
@@ -22,7 +22,6 @@ public class IndexCombiner extends
 		}
 		offsets.sort(null);
 
-		context.write(new Text(key.getDocName()),
-				new TermFrequencyWritable(key.getDocName(), offsets));
+		context.write(key, new TermFrequencyWritable(key.getDocName(), offsets));
 	}
 }
