@@ -16,6 +16,6 @@ public class TermFrequencyArrayWritable extends ArrayWritable {
 
 	@Override
 	public String toString() {
-		return String.join(";", Arrays.asList(super.toStrings())) + ";";
+		return String.join(";", Arrays.asList(super.toStrings()));
 	}
 }

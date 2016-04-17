@@ -1,0 +1,10 @@
+#!/bin/bash
+
+BASEDIR=$(dirname "$0")
+
+read -p "=> " QUERY
+
+hdfs dfs -rm -f -r hw1/query-result
+
+hadoop jar $BASEDIR/../prebuild/searcher.jar query.QueryProcessor hw1/input hw1/index "$QUERY" hw1/query-result
+hdfs dfs -cat hw1/query-result/part-*
