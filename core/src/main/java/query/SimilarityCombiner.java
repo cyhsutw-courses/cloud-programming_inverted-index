@@ -67,7 +67,8 @@ public class SimilarityCombiner
 			// for "and query"
 			for (int i = 0; i < tf.length; i += 1) {
 				if (tf[i] == 0) {
-					return;
+					throw new IllegalArgumentException(
+							determinedQueryList.get(i) + "not found");
 				}
 			}
 			double cosSim = this.calculateSimilarity(vec, queryVec);
