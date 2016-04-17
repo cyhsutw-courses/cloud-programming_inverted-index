@@ -34,7 +34,9 @@ public class SimilarityCombiner
 		for (String term : query) {
 			int index = determinedQueryList.indexOf(term);
 			queryTf[index] += 1;
+			System.out.print(term + " ");
 		}
+		System.out.println();
 
 		boolean isOrQuery = config.getBoolean("query.or", false);
 
@@ -45,6 +47,7 @@ public class SimilarityCombiner
 		for (ScoreArrayWritable scoreArray : values) {
 			for (Writable rawScore : scoreArray.get()) {
 				ScoreWritable score = (ScoreWritable) rawScore;
+				System.out.println("\t" + score.getTerm());
 				int index = determinedQueryList.indexOf(score.getTerm());
 				idf[index] = score.getInvertedDocumentFrequency();
 				tf[index] = score.getOffsets().size();
@@ -65,7 +68,7 @@ public class SimilarityCombiner
 							.size()])));
 		} else {
 			// for "and query"
-			for (int i = 0; i < queryTf.length; i += 1) {
+			for (int i = 0; i < tf.length; i += 1) {
 				if (tf[i] == 0) {
 					return;
 				}
