@@ -48,7 +48,7 @@ public class DocumentSimilarityPair implements
 	public int compareTo(DocumentSimilarityPair o) {
 		int result = this.docName.toString().compareTo(o.docName.toString());
 		if (result == 0) {
-			return Double.compare(this.similarity.get(), o.similarity.get());
+			// return Double.compare(this.similarity.get(), o.similarity.get());
 		}
 		return result;
 	}

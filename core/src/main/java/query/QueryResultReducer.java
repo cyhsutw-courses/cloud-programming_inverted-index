@@ -21,7 +21,6 @@ public class QueryResultReducer extends
 	public void reduce(DocumentSimilarityPair key,
 			Iterable<ScoreArrayWritable> values, Context context)
 			throws IOException, InterruptedException {
-
 		Configuration config = context.getConfiguration();
 
 		List<String> query = Arrays.asList(config.getStrings("query"));
