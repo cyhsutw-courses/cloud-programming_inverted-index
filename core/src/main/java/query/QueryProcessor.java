@@ -19,6 +19,7 @@ public class QueryProcessor {
 	public static void main(String[] args) throws IOException,
 			ClassNotFoundException, InterruptedException {
 		Configuration config = new Configuration();
+		config.set("textinputformat.record.delimiter", "\n");
 
 		// lower case, eliminate special chars, unify white spaces
 		String cleanQuery = args[2].trim().toLowerCase()
