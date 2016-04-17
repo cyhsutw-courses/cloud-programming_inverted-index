@@ -48,8 +48,6 @@ public class QueryProcessor {
 
 		job.setMapperClass(IndexMapper.class);
 		job.setSortComparatorClass(DocSimComparator.class);
-		job.setCombinerClass(SimilarityCombiner.class);
-		job.setCombinerKeyGroupingComparatorClass(DocSimGroupComparator.class);
 		job.setGroupingComparatorClass(DocSimGroupComparator.class);
 		job.setReducerClass(QueryResultReducer.class);
 
