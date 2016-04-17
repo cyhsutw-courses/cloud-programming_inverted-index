@@ -34,6 +34,7 @@ public class IndexMapper extends
 		}
 	}
 
+	@Override
 	public void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
 		long numDocs = context.getConfiguration().getLong("document.count", 0);
