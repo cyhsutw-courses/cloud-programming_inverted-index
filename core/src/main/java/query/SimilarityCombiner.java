@@ -100,6 +100,6 @@ public class SimilarityCombiner
 		v1s.close();
 		v2s.close();
 
-		return vec1[0];
+		return vec2[0];
 	}
 }
