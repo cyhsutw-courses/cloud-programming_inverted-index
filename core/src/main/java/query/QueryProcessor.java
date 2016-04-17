@@ -49,7 +49,7 @@ public class QueryProcessor {
 		job.setSortComparatorClass(DocSimComparator.class);
 		job.setCombinerClass(SimilarityCombiner.class);
 		job.setCombinerKeyGroupingComparatorClass(DocSimGroupComparator.class);
-		job.setReducerClass(QueryReducer.class);
+		job.setReducerClass(QueryResultReducer.class);
 
 		job.setMapOutputKeyClass(DocumentSimilarityPair.class);
 		job.setMapOutputValueClass(ScoreArrayWritable.class);
