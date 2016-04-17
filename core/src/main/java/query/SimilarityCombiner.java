@@ -45,7 +45,6 @@ public class SimilarityCombiner
 		for (ScoreArrayWritable scoreArray : values) {
 			for (Writable rawScore : scoreArray.get()) {
 				ScoreWritable score = (ScoreWritable) rawScore;
-				System.out.println("\t" + score.getTerm());
 				int index = determinedQueryList.indexOf(score.getTerm());
 				idf[index] = score.getInvertedDocumentFrequency();
 				tf[index] = score.getOffsets().size();
@@ -100,7 +99,7 @@ public class SimilarityCombiner
 				.sqrt(v2.map(e -> e * e).reduce(0.0, Double::sum));
 		v1s.close();
 		v2s.close();
-		System.out.println(innerProduct);
-		return innerProduct / (v1Length * v2Length);
+
+		return innerProduct;
 	}
 }

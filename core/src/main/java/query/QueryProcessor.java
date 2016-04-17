@@ -33,6 +33,7 @@ public class QueryProcessor {
 		} else {
 			if (cleanQuery.matches("^\".+\"$")) {
 				config.setBoolean("query.exactMatch", true);
+				cleanQuery = cleanQuery.substring(1, cleanQuery.length() - 1);
 			}
 			config.setStrings("query", cleanQuery.split(" "));
 		}
