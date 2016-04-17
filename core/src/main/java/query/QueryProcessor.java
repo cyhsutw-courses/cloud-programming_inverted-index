@@ -23,7 +23,7 @@ public class QueryProcessor {
 
 		// lower case, eliminate special chars, unify white spaces
 		String cleanQuery = args[2].trim().toLowerCase()
-				.replaceAll("[^a-z0-9]", "").replaceAll("\\s+", " ");
+				.replaceAll("\\s+", " ").replaceAll("[^a-z0-9 ]", "");
 
 		// for query contains 'or'
 		if (cleanQuery.matches(".*( or ).*")) {
