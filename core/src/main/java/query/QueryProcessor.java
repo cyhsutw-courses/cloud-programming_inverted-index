@@ -26,8 +26,7 @@ public class QueryProcessor {
 				.replaceAll("[^a-z0-9]", "").replaceAll("\\s+", " ");
 
 		// for query contains 'or'
-		if (cleanQuery.matches(" or ")) {
-			System.out.println("OMG ORRRRR");
+		if (cleanQuery.matches(".*( or ).*")) {
 			config.setBoolean("query.or", true);
 			// assuming the each token does not contain whitespace
 			config.setStrings("query", cleanQuery.split(" or "));
