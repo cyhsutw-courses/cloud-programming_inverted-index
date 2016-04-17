@@ -63,7 +63,7 @@ public class TermFrequencyWritable implements Writable {
 
 	@Override
 	public String toString() {
-		return String.join(" ", frequency.toString(), docName.toString(),
+		return String.join(" ", docName.toString(), frequency.toString(),
 				offsets.toString());
 	}
 }
