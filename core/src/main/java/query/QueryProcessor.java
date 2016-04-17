@@ -27,6 +27,7 @@ public class QueryProcessor {
 
 		// for query contains 'or'
 		if (cleanQuery.matches(" or ")) {
+			System.out.println("OMG ORRRRR");
 			config.setBoolean("query.or", true);
 			// assuming the each token does not contain whitespace
 			config.setStrings("query", cleanQuery.split(" or "));

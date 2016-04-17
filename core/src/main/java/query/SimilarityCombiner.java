@@ -34,9 +34,9 @@ public class SimilarityCombiner
 		for (String term : query) {
 			int index = determinedQueryList.indexOf(term);
 			queryTf[index] += 1;
-			System.out.print(term + " ");
+			System.err.print(term + " ");
 		}
-		System.out.println();
+		System.err.println();
 
 		boolean isOrQuery = config.getBoolean("query.or", false);
 
