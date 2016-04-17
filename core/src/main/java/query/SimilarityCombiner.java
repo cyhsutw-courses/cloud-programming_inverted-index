@@ -85,12 +85,21 @@ public class SimilarityCombiner
 		Stream<Double> v2 = v2s.boxed();
 		double innerProduct = StreamUtils.zip(v1, v2,
 				(a, b) -> new Double(a * b)).reduce(0.0, Double::sum);
-		double v1Length = Math.sqrt(v1.map((e) -> e * e).reduce(0.0,
-				Double::sum));
-		double v2Length = Math.sqrt(v2.map((e) -> e * e).reduce(0.0,
-				Double::sum));
+
 		v1s.close();
 		v2s.close();
+		v1s = Arrays.stream(vec1);
+		v2s = Arrays.stream(vec2);
+		v1 = v1s.boxed();
+		v2 = v2s.boxed();
+
+		double v1Length = Math
+				.sqrt(v1.map(e -> e * e).reduce(0.0, Double::sum));
+		double v2Length = Math
+				.sqrt(v2.map(e -> e * e).reduce(0.0, Double::sum));
+		v1s.close();
+		v2s.close();
+
 		return innerProduct / (v1Length * v2Length);
 	}
 }
