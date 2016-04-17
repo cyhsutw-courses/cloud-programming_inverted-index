@@ -34,9 +34,7 @@ public class SimilarityCombiner
 		for (String term : query) {
 			int index = determinedQueryList.indexOf(term);
 			queryTf[index] += 1;
-			System.err.print(term + " ");
 		}
-		System.err.println();
 
 		boolean isOrQuery = config.getBoolean("query.or", false);
 
@@ -102,7 +100,7 @@ public class SimilarityCombiner
 				.sqrt(v2.map(e -> e * e).reduce(0.0, Double::sum));
 		v1s.close();
 		v2s.close();
-
+		System.out.println(innerProduct);
 		return innerProduct / (v1Length * v2Length);
 	}
 }
