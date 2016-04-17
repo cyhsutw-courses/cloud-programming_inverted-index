@@ -51,6 +51,13 @@ public class IndexMapper extends
 						ScoreWritable[] singleElementArr = { new ScoreWritable(
 								indexSet.term, invertedDocumentFreq,
 								entry.getValue()) };
+						System.out
+								.println(indexSet.term
+										+ " "
+										+ entry.getKey()
+										+ " "
+										+ singleElementArr[0].getOffsets()
+												.size());
 						context.write(new DocumentSimilarityPair(
 								entry.getKey(), 0.0), new ScoreArrayWritable(
 								singleElementArr));

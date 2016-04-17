@@ -48,13 +48,13 @@ public class SimilarityCombiner
 				int index = determinedQueryList.indexOf(score.getTerm());
 				idf[index] = score.getInvertedDocumentFrequency();
 				tf[index] = score.getOffsets().size();
-				vec[index] = tf[index];// * idf[index];
+				vec[index] = tf[index] * idf[index];
 				list.add(score);
 			}
 		}
 		double[] queryVec = new double[determinedQueryList.size()];
 		for (int i = 0; i < queryTf.length; i += 1) {
-			queryVec[i] = queryTf[i]; // * idf[i];
+			queryVec[i] = queryTf[i] * idf[i];
 		}
 
 		if (isOrQuery) {
@@ -100,6 +100,6 @@ public class SimilarityCombiner
 		v1s.close();
 		v2s.close();
 
-		return vec2[0];
+		return innerProduct / (v1Length * v2Length);
 	}
 }
