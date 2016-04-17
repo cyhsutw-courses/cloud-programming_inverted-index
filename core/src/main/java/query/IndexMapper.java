@@ -29,6 +29,7 @@ public class IndexMapper extends
 
 			for (int i = 1; i < items.length; i++) {
 				String[] vals = items[i].split(" ");
+				System.out.println(vals[2]);
 				termFreqs.put(vals[0], JSON.parseArray(vals[2], Long.class));
 			}
 		}
