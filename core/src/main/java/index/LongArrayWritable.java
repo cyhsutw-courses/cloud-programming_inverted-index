@@ -29,6 +29,6 @@ public class LongArrayWritable extends ArrayWritable {
 	@Override
 	public String toString() {
 		return String.join("", "[",
-				String.join(", ", Arrays.asList(this.toStrings())), "]");
+				String.join(",", Arrays.asList(this.toStrings())), "]");
 	}
 }
