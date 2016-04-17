@@ -100,6 +100,6 @@ public class SimilarityCombiner
 		v1s.close();
 		v2s.close();
 
-		return innerProduct;
+		return v1Length * v2Length;
 	}
 }
