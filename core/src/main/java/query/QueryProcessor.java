@@ -47,7 +47,7 @@ public class QueryProcessor {
 		job.setJarByClass(QueryProcessor.class);
 
 		job.setMapperClass(IndexMapper.class);
-		job.setSortComparatorClass(DocSimComparator.class);
+		job.setSortComparatorClass(DocSimGroupComparator.class);
 		job.setGroupingComparatorClass(DocSimGroupComparator.class);
 		job.setReducerClass(QueryResultReducer.class);
 
