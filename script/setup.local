@@ -1,0 +1,8 @@
+#!/bin/sh
+
+BASEDIR=$(dirname "$0")
+
+hdfs dfs -rm -r -f hw1/input
+
+hdfs dfs -mkdir -p hw1/input
+hdfs dfs -put $BASEDIR/../data/* hw1/input/

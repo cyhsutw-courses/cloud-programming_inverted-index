@@ -3,6 +3,8 @@ package index;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -18,9 +20,13 @@ public class IndexMapper extends
 
 	public void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
+		List<String> fileNames = Arrays.asList(context.getConfiguration().getStrings("inputFiles"));
+		
 		String fileName = ((FileSplit) context.getInputSplit()).getPath()
 				.getName();
-
+		
+		int fileID = fileNames.indexOf(fileName) + 1;
+		
 		StandardAnalyzer analyzer = new StandardAnalyzer();
 
 		TokenStream stream = analyzer.tokenStream(null,
@@ -40,8 +46,8 @@ public class IndexMapper extends
 			ArrayList<Long> offsets = new ArrayList<>();
 			offsets.add(new Long(key.get() + offsetAttribute.startOffset()));
 
-			context.write(new IndexKey(toProcess, fileName),
-					new TermFrequencyWritable(fileName, offsets));
+			context.write(new IndexKey(toProcess, Integer.toString(fileID)),
+					new TermFrequencyWritable(Integer.toString(fileID), offsets));
 		}
 
 		stream.close();

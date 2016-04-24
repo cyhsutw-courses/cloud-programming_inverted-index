@@ -12,4 +12,9 @@ public class ScoreArrayWritable extends ArrayWritable {
 		super(ScoreWritable.class, values);
 	}
 
+	@Override
+	public String toString() {
+		String[] strings = super.toStrings();
+		return String.join(";", strings);
+	}
 }

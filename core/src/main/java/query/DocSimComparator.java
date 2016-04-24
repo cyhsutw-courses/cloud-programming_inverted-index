@@ -13,11 +13,11 @@ public class DocSimComparator extends WritableComparator {
 		DocumentSimilarityPair left = (DocumentSimilarityPair) lhs;
 		DocumentSimilarityPair right = (DocumentSimilarityPair) rhs;
 
-		int result = Double
-				.compare(left.getSimilarity(), right.getSimilarity());
-		if (result == 0) {
-			result = left.getDocName().compareTo(right.getDocName());
-		}
-		return result;
+//		int result = Double
+//				.compare(left.getSimilarity(), right.getSimilarity());
+//		if (result == 0) {
+//		result = left.getDocName().compareTo(right.getDocName());
+//	
+		return left.getDocName().compareTo(right.getDocName());
 	}
 }

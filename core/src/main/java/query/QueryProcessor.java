@@ -20,6 +20,7 @@ public class QueryProcessor {
 			ClassNotFoundException, InterruptedException {
 		Configuration config = new Configuration();
 		config.set("textinputformat.record.delimiter", "\n");
+		config.set("mapreduce.output.textoutputformat.separator", "|");
 
 		// lower case, eliminate special chars, unify white spaces
 		String cleanQuery = args[2].trim().toLowerCase()
@@ -35,7 +36,11 @@ public class QueryProcessor {
 				config.setBoolean("query.exactMatch", true);
 				cleanQuery = cleanQuery.substring(1, cleanQuery.length() - 1);
 			}
-			config.setStrings("query", cleanQuery.split(" "));
+			String [] qs = cleanQuery.split(" ");
+			config.setStrings("query", qs);
+			if (qs.length == 1) {
+				config.setBoolean("query.or", true);
+			}
 		}
 
 		FileSystem fileSystem = FileSystem.get(config);
@@ -49,12 +54,13 @@ public class QueryProcessor {
 		job.setMapperClass(IndexMapper.class);
 		job.setSortComparatorClass(DocSimGroupComparator.class);
 		job.setGroupingComparatorClass(DocSimGroupComparator.class);
+		job.setPartitionerClass(DocSimPartitioner.class);
 		job.setReducerClass(QueryResultReducer.class);
 
 		job.setMapOutputKeyClass(DocumentSimilarityPair.class);
 		job.setMapOutputValueClass(ScoreArrayWritable.class);
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);
+		job.setOutputValueClass(ScoreArrayWritable.class);
 		job.setNumReduceTasks(1);
 
 		FileInputFormat.addInputPath(job, new Path(args[1]));

@@ -16,7 +16,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import com.codepoetics.protonpack.StreamUtils;
 
 public class QueryResultReducer extends
-		Reducer<DocumentSimilarityPair, ScoreArrayWritable, Text, Text> {
+		Reducer<DocumentSimilarityPair, ScoreArrayWritable, Text, ScoreArrayWritable> {
 	@Override
 	public void reduce(DocumentSimilarityPair key,
 			Iterable<ScoreArrayWritable> values, Context context)
@@ -58,19 +58,17 @@ public class QueryResultReducer extends
 
 		if (isOrQuery) {
 			double cosSim = this.calculateSimilarity(vec, queryVec);
-			context.write(new Text(key.getDocName()),
-					new Text(Double.toString(cosSim)));
+			context.write(new Text(key.getDocName() + "::" + Double.toString(cosSim)), new ScoreArrayWritable(list.toArray(new ScoreWritable[list.size()])));
 		} else {
 			// for "and query"
 			for (int i = 0; i < tf.length; i += 1) {
 				if (tf[i] == 0) {
-					throw new IllegalArgumentException(
-							determinedQueryList.get(i) + " not found");
+					return;
 				}
 			}
 			double cosSim = this.calculateSimilarity(vec, queryVec);
-			context.write(new Text(key.getDocName()),
-					new Text(Double.toString(cosSim)));
+
+			context.write(new Text(key.getDocName() + "::" + Double.toString(cosSim)), new ScoreArrayWritable(list.toArray(new ScoreWritable[list.size()])));
 		}
 	}
 

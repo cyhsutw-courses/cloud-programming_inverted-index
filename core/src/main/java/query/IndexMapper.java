@@ -46,19 +46,12 @@ public class IndexMapper extends
 				IndexSet indexSet = new IndexSet(val);
 				if (query.contains(indexSet.term)) {
 					double invertedDocumentFreq = Math
-							.log(((double) indexSet.documentFreq) / numDocs);
+							.log10(((double) indexSet.documentFreq) / numDocs);
 					for (Entry<String, List<Long>> entry : indexSet.termFreqs
 							.entrySet()) {
 						ScoreWritable[] singleElementArr = { new ScoreWritable(
 								indexSet.term, invertedDocumentFreq,
 								entry.getValue()) };
-						System.out
-								.println(indexSet.term
-										+ " "
-										+ entry.getKey()
-										+ " "
-										+ singleElementArr[0].getOffsets()
-												.size());
 						context.write(new DocumentSimilarityPair(
 								entry.getKey(), 0.0), new ScoreArrayWritable(
 								singleElementArr));

@@ -48,6 +48,11 @@ public class ScoreWritable implements Writable {
 	}
 
 	@Override
+	public String toString() {
+		return term.toString() + " " + offsets.toString(); 
+	}
+	
+	@Override
 	public void write(DataOutput out) throws IOException {
 		term.write(out);
 		invertedDocumentFreq.write(out);
