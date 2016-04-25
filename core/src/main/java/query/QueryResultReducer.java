@@ -40,12 +40,16 @@ public class QueryResultReducer extends
 		double[] vec = new double[determinedQueryList.size()];
 		int[] tf = new int[determinedQueryList.size()];
 		double[] idf = new double[determinedQueryList.size()];
+		
+		for(int idx = 0; idx < determinedQueryList.size(); idx += 1) {
+			idf[idx] = IndexMapper.InvertedDocFreqs.getOrDefault(determinedQueryList.get(idx), 0.0);
+		}
+		
 		List<ScoreWritable> list = new ArrayList<>();
 		for (ScoreArrayWritable scoreArray : values) {
 			for (Writable rawScore : scoreArray.get()) {
 				ScoreWritable score = (ScoreWritable) rawScore;
 				int index = determinedQueryList.indexOf(score.getTerm());
-				idf[index] = score.getInvertedDocumentFrequency();
 				tf[index] = score.getOffsets().size();
 				vec[index] = tf[index] * idf[index];
 				list.add(score);

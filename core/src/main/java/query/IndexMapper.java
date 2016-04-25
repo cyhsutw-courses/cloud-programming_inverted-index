@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -16,6 +17,8 @@ import com.alibaba.fastjson.JSON;
 public class IndexMapper extends
 		Mapper<LongWritable, Text, DocumentSimilarityPair, ScoreArrayWritable> {
 
+	public static Map<String, Double> InvertedDocFreqs = new HashMap<String, Double>();
+	
 	private final class IndexSet {
 		public String term;
 		public long documentFreq;
@@ -37,16 +40,19 @@ public class IndexMapper extends
 	@Override
 	public void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
-		long numDocs = context.getConfiguration().getLong("document.count", 0);
-		List<String> query = Arrays.asList(context.getConfiguration()
-				.getStrings("query"));
+		Configuration config = context.getConfiguration();
+		long numDocs = config.getLong("document.count", 0);
+		List<String> query = Arrays.asList(config.getStrings("query"));
 
 		for (String val : value.toString().split("\n")) {
 			if (val.contains(";")) {
 				IndexSet indexSet = new IndexSet(val);
 				if (query.contains(indexSet.term)) {
 					double invertedDocumentFreq = Math
-							.log10(((double) indexSet.documentFreq) / numDocs);
+							.log10((numDocs / (double) indexSet.documentFreq));
+					if (InvertedDocFreqs.get(indexSet.term) == null) {
+						InvertedDocFreqs.put(indexSet.term, invertedDocumentFreq);
+					}
 					for (Entry<String, List<Long>> entry : indexSet.termFreqs
 							.entrySet()) {
 						ScoreWritable[] singleElementArr = { new ScoreWritable(
