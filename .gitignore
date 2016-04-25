@@ -17,3 +17,5 @@ data/
 
 # exception
 !searcher.jar
+
+tmp/

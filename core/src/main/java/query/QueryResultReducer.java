@@ -1,6 +1,10 @@
 package query;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,6 +13,8 @@ import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -42,7 +48,14 @@ public class QueryResultReducer extends
 		double[] idf = new double[determinedQueryList.size()];
 		
 		for(int idx = 0; idx < determinedQueryList.size(); idx += 1) {
-			idf[idx] = IndexMapper.InvertedDocFreqs.getOrDefault(determinedQueryList.get(idx), 0.0);
+			String term = determinedQueryList.get(idx);
+			
+			Path pt = new Path("tmp/" + term);
+            FileSystem fs = FileSystem.get(config);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(pt)));
+            String idxString = br.readLine();
+            br.close();
+			idf[idx] = Double.parseDouble(idxString);
 		}
 		
 		List<ScoreWritable> list = new ArrayList<>();
