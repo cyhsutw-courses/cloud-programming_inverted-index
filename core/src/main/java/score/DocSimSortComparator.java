@@ -14,7 +14,7 @@ public class DocSimSortComparator extends WritableComparator {
 		DocSimPair right = (DocSimPair) rhs;
 
 		int result = Double
-				.compare(left.getSimilarity(), right.getSimilarity());
+				.compare(right.getSimilarity(), left.getSimilarity());
 		if (result == 0) {
 			result = left.getDocName().compareTo(right.getDocName());
 		}
