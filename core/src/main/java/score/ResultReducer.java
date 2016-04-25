@@ -13,7 +13,9 @@ public class ResultReducer extends Reducer<DocSimPair, Text, Text, Text>{
 		int rank = context.getConfiguration().getInt("rank", 1);
 		
 		for (Text t : values) {
-			context.write(new Text("Rank " + rank + ": "+ key.getDocName() +"\tscore = " + key.getSimilarity()), t);
+			if (rank <= 10) {
+				context.write(new Text("Rank " + rank + ": "+ key.getDocName() +"\tscore = " + key.getSimilarity()), t);
+			}
 		}
 		
 		context.getConfiguration().setInt("rank", rank + 1);
