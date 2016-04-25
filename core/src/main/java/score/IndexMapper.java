@@ -27,7 +27,7 @@ public class IndexMapper extends Mapper<LongWritable, Text, DocSimPair, Text> {
 		for (String rawVal : value.toString().split("\n")){
 			String[] kv = rawVal.toString().split("\\|");
 			String[] docSim = kv[0].split("::");
-			DocSimPair ds = new DocSimPair(docNames.get(Integer.parseInt(docSim[0])), Double.parseDouble(docSim[1]));
+			DocSimPair ds = new DocSimPair(docNames.get(Integer.parseInt(docSim[0]) - 1), Double.parseDouble(docSim[1]));
 
 			String[] kwOffsets = kv[1].split(";");
 
@@ -71,7 +71,7 @@ public class IndexMapper extends Mapper<LongWritable, Text, DocSimPair, Text> {
 					if (ff >= 10) {
 						sbd.append(fileContent.substring((int)(ff - 10), (int)Math.min(fileContent.length(), ff + 10 + maxWordLength)).replaceAll("\\s+", " "));
 					} else {
-						sbd.append(fileContent.substring(0, (int)Math.min(fileContent.length(), 10 + maxWordLength)).replaceAll("\\s+", " "));
+						sbd.append(fileContent.substring(0, (int)Math.min(fileContent.length(), ff + 10 + maxWordLength)).replaceAll("\\s+", " "));
 					}
 					sbd.append("\n");
 				}
