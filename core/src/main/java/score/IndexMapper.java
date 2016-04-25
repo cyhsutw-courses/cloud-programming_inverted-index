@@ -53,7 +53,7 @@ public class IndexMapper extends Mapper<LongWritable, Text, DocSimPair, Text> {
 			}
 			String fileContent = buff.toString();
 			inStream.close();
-			fs.close();
+			// fs.close();
 
 			if (isOrQuery) {
 				List<Long> offsets = new ArrayList<>();
