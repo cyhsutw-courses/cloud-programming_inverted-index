@@ -13,6 +13,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
@@ -49,13 +50,17 @@ public class QueryResultReducer extends
 		
 		for(int idx = 0; idx < determinedQueryList.size(); idx += 1) {
 			String term = determinedQueryList.get(idx);
-			
-			Path pt = new Path("tmp/" + term);
-            FileSystem fs = FileSystem.get(config);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(pt)));
-            String idxString = br.readLine();
-            br.close();
-			idf[idx] = Double.parseDouble(idxString);
+			try {
+				Path pt = new Path("tmp/" + term);
+				FileSystem fs = FileSystem.get(config);
+				FSDataInputStream is = fs.open(pt);
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				String idxString = br.readLine();
+				br.close();
+				idf[idx] = Double.parseDouble(idxString);
+			} catch (Exception e) {
+				idf[idx] = 0.0;
+			}
 		}
 		
 		List<ScoreWritable> list = new ArrayList<>();
@@ -74,8 +79,8 @@ public class QueryResultReducer extends
 		}
 
 		if (isOrQuery) {
-			double cosSim = this.calculateSimilarity(vec, queryVec);
-			context.write(new Text(key.getDocName() + "::" + Double.toString(cosSim)), new ScoreArrayWritable(list.toArray(new ScoreWritable[list.size()])));
+			double sim = Arrays.stream(vec).sum();
+			context.write(new Text(key.getDocName() + "::" + Double.toString(sim)), new ScoreArrayWritable(list.toArray(new ScoreWritable[list.size()])));
 		} else {
 			// for "and query"
 			for (int i = 0; i < tf.length; i += 1) {

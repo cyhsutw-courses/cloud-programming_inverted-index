@@ -7,6 +7,7 @@ read -p "=> " QUERY
 hdfs dfs -rm -f -r hw1/transient-query-result
 hdfs dfs -rm -f -r hw1/query-result
 hdfs dfs -rm -f -r tmp
+hdfs dfs -mkdir tmp
 
 hadoop jar $BASEDIR/../prebuild/searcher.jar query.QueryProcessor hw1/input hw1/index "$QUERY" hw1/transient-query-result
 hadoop jar $BASEDIR/../prebuild/searcher.jar score.ScoreProcessor hw1/input hw1/transient-query-result "$QUERY" hw1/query-result

@@ -41,13 +41,14 @@ public class IndexMapper extends
 		while (stream.incrementToken()) {
 			String toProcess = termAttribute.toString();
 			toProcess = toProcess.toLowerCase();
-			toProcess = toProcess.replaceAll("[^a-z0-9]", "");
+			toProcess = toProcess.replaceAll("[^a-z]", "");
+			if (toProcess.length() > 0) {
+				ArrayList<Long> offsets = new ArrayList<>();
+				offsets.add(new Long(key.get() + offsetAttribute.startOffset()));
 
-			ArrayList<Long> offsets = new ArrayList<>();
-			offsets.add(new Long(key.get() + offsetAttribute.startOffset()));
-
-			context.write(new IndexKey(toProcess, Integer.toString(fileID)),
-					new TermFrequencyWritable(Integer.toString(fileID), offsets));
+				context.write(new IndexKey(toProcess, Integer.toString(fileID)),
+							  new TermFrequencyWritable(Integer.toString(fileID), offsets));
+			}
 		}
 
 		stream.close();
