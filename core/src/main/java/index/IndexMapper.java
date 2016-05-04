@@ -41,14 +41,31 @@ public class IndexMapper extends
 		while (stream.incrementToken()) {
 			String toProcess = termAttribute.toString();
 			toProcess = toProcess.toLowerCase();
-			toProcess = toProcess.replaceAll("[^a-z]", "");
-			if (toProcess.length() > 0) {
-				ArrayList<Long> offsets = new ArrayList<>();
-				offsets.add(new Long(key.get() + offsetAttribute.startOffset()));
+			toProcess = toProcess.replaceAll("[^a-z]", " ");
+			
+			StandardAnalyzer analyzer2 = new StandardAnalyzer();
+			TokenStream stream2 = analyzer2.tokenStream(null,
+					new StringReader(toProcess));
+			stream2.reset();
 
-				context.write(new IndexKey(toProcess, Integer.toString(fileID)),
-							  new TermFrequencyWritable(Integer.toString(fileID), offsets));
+			OffsetAttribute offsetAttribute2 = stream2
+					.getAttribute(OffsetAttribute.class);
+			CharTermAttribute termAttribute2 = stream2
+					.getAttribute(CharTermAttribute.class);
+			
+			while(stream2.incrementToken()) {
+				String tok = termAttribute2.toString();
+				tok = tok.toLowerCase();
+				if (tok.length() > 0) {
+					ArrayList<Long> offsets = new ArrayList<>();
+					offsets.add(new Long(key.get() + offsetAttribute.startOffset() + offsetAttribute2.startOffset()));
+
+					context.write(new IndexKey(tok, Integer.toString(fileID)),
+								  new TermFrequencyWritable(Integer.toString(fileID), offsets));
+				}
 			}
+			stream2.close();
+			analyzer2.close();
 		}
 
 		stream.close();
